@@ -47,13 +47,24 @@ const Right = styled(Line)`
   height: 2px;
 `;
 
-const Cell: React.FC<MazeCell> = ({top, right, bottom, left}) => {
+const Marker = styled.span`
+  position: absolute;
+  background-color: #cf4d25;
+  width: 10px;
+  height: 10px;
+  top: 3px;
+  left: 3px;
+  border-radius: 100%;
+`;
+
+const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
   return (
     <CellWrap>
       {top ? <Top/> : undefined}
       {bottom ? <Bottom/> : undefined}
       {left ? <Left/> : undefined}
       {right ? <Right/> : undefined}
+      {marker ? <Marker/> : undefined}
     </CellWrap>
   );
 }

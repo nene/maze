@@ -6,12 +6,13 @@ export type MazeCell = {
   right: boolean;
   bottom: boolean;
   left: boolean;
+  marker: boolean;
 };
 
 type FullMaze = MazeCell[][];
 type MaybeMaze = (MazeCell | undefined)[][];
 
-type Dir = keyof MazeCell;
+type Dir = 'top' | 'right' | 'bottom' | 'left';
 
 type Coord = { x: number, y: number };
 
@@ -31,7 +32,7 @@ const emptyMaze = (width: number, height: number): undefined[][] => {
   );
 }
 
-const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: false, right: false });
+const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: false, right: false, marker: false });
 
 const fillEmptySlots = (maze: MaybeMaze): FullMaze => {
   return maze.map(row => row.map(c => c || emptyCell()));
@@ -63,6 +64,12 @@ const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell => {
   return c;
 }
 
+const cellPlusMarker = (cell: MazeCell, marker: boolean): MazeCell => {
+  const c = clone(cell);
+  c.marker = true;
+  return c;
+}
+
 const mazeSize = <T>(maze: T[][]): Coord => ({
   y: maze.length,
   x: maze[0].length,
@@ -85,7 +92,9 @@ export function createMaze(): FullMaze {
   const maze: MaybeMaze = emptyMaze(WIDTH, HEIGHT);
 
   let p: Coord = {x: 20, y: 20};
-  let cell = cellAt(p, maze);
+  // mark first cell
+  let cell: MazeCell | undefined = cellPlusMarker(cellAt(p, maze) || emptyCell(), true);
+
   while (p) {
     const {p2, dir} = nextCell(p, maze) || {};
     if (!p2 || !dir) {
@@ -97,6 +106,9 @@ export function createMaze(): FullMaze {
     p = p2;
     cell = cellAt(p2, maze);
   }
+
+  // mark last cell
+  maze[p.y][p.x] = cellPlusMarker(cell || emptyCell(), true);
 
   return fillEmptySlots(maze);
 }
