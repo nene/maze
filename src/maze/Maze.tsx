@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { range } from "ramda";
 
 type MazeCell = number;
 
-const data: MazeCell[][] = [
-  [1, 2, 3, 4, 5],
-  [1, 2, 3, 4, 5],
-  [1, 2, 3, 4, 5],
-  [1, 2, 3, 4, 5],
-  [1, 2, 3, 4, 5],
-];
+const width = 10
+const height = 10
+
+const data: MazeCell[][] = range(0, height).map(
+  () => range(0, width)
+);
 
 const C = styled.span`
   display: inline-block;
