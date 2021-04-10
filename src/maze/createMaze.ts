@@ -1,6 +1,6 @@
 import seedrandom from "seedrandom";
 import { Coord, Dir, FullMaze, MaybeMaze, MazeCell } from "./Maze";
-import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, fillEmptySlots, mazeSize, oppositeDir } from "./maze-utils";
+import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, fillEmptySlots, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
@@ -26,7 +26,7 @@ const nextCell = (p: Coord, maze: MaybeMaze): {p2: Coord, dir: Dir} | undefined 
 }
 
 export function createMaze(): FullMaze {
-  const maze: MaybeMaze = emptyMaze(WIDTH, HEIGHT);
+  let maze: MaybeMaze = emptyMaze(WIDTH, HEIGHT);
 
   let p: Coord = {x: 20, y: 20};
   // mark first cell
@@ -38,14 +38,14 @@ export function createMaze(): FullMaze {
       break;
     }
 
-    maze[p.y][p.x] = cellPlusDir(cell || emptyCell(), dir);
-    maze[p2.y][p2.x] = cellPlusDir(emptyCell(), oppositeDir(dir));
+    maze = setCellAt(p, cellPlusDir(cell || emptyCell(), dir), maze);
+    maze = setCellAt(p2, cellPlusDir(emptyCell(), oppositeDir(dir)), maze);
     p = p2;
     cell = cellAt(p2, maze);
   }
 
   // mark last cell
-  maze[p.y][p.x] = cellPlusMarker(cell || emptyCell(), true);
+  maze = setCellAt(p, cellPlusMarker(cell || emptyCell(), true), maze);
 
   return fillEmptySlots(maze);
 }

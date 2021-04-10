@@ -21,6 +21,12 @@ export const oppositeDir = (dir: Dir): Dir => {
 
 export const cellAt = (p: Coord, maze: MaybeMaze): MazeCell | undefined => maze[p.y][p.x];
 
+export const setCellAt = (p: Coord, cell: MazeCell, maze: MaybeMaze): MaybeMaze => {
+  maze[p.y][p.x] = cell;
+  return maze;
+};
+  
+
 export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell => {
   const c = clone(cell);
   c[dir] = true;
