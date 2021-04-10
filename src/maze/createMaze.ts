@@ -1,20 +1,6 @@
-import { clone, range } from "ramda";
 import seedrandom from "seedrandom";
-
-export type MazeCell = {
-  top: boolean;
-  right: boolean;
-  bottom: boolean;
-  left: boolean;
-  marker: boolean;
-};
-
-type FullMaze = MazeCell[][];
-type MaybeMaze = (MazeCell | undefined)[][];
-
-type Dir = 'top' | 'right' | 'bottom' | 'left';
-
-type Coord = { x: number, y: number };
+import { Coord, Dir, FullMaze, MaybeMaze, MazeCell } from "./Maze";
+import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, fillEmptySlots, mazeSize, oppositeDir } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
@@ -25,55 +11,6 @@ function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
   return arr[index];
 }
-
-const emptyMaze = (width: number, height: number): undefined[][] => {
-  return range(0, height).map(
-    () => range(0, width).map(() => undefined)
-  );
-}
-
-const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: false, right: false, marker: false });
-
-const fillEmptySlots = (maze: MaybeMaze): FullMaze => {
-  return maze.map(row => row.map(c => c || emptyCell()));
-}
-
-const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
-  switch (dir) {
-    case 'left': return x > 0 ? { x: x - 1, y } : undefined;
-    case 'right': return x < size.x - 1 ? { x: x + 1, y } : undefined;
-    case 'top': return y > 0 ? { x, y: y - 1 } : undefined;
-    case 'bottom': return y < size.y - 1 ? { x, y: y + 1 } : undefined;
-  }
-}
-
-const oppositeDir = (dir: Dir): Dir => {
-  switch (dir) {
-    case 'left': return 'right';
-    case 'right': return 'left';
-    case 'top': return 'bottom';
-    case 'bottom': return 'top';
-  }
-}
-
-const cellAt = (p: Coord, maze: MaybeMaze): MazeCell | undefined => maze[p.y][p.x];
-
-const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell => {
-  const c = clone(cell);
-  c[dir] = true;
-  return c;
-}
-
-const cellPlusMarker = (cell: MazeCell, marker: boolean): MazeCell => {
-  const c = clone(cell);
-  c.marker = true;
-  return c;
-}
-
-const mazeSize = <T>(maze: T[][]): Coord => ({
-  y: maze.length,
-  x: maze[0].length,
-});
 
 const nextCell = (p: Coord, maze: MaybeMaze): {p2: Coord, dir: Dir} | undefined => {
   let directions: Dir[] = ['left', 'right', 'top', 'bottom'];

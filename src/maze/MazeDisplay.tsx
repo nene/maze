@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MazeCell } from "./createMaze";
+import { MazeCell } from "./Maze";
 
 const RowWrap = styled.div`
   display: flex;
