@@ -31,7 +31,7 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
 
   if (!p2 || !dir) {
     if (isDeadEndCell(cellAt(p, maze))) {
-      maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
+      return setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
     }
     return maze;
   }
@@ -40,9 +40,7 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
   maze = drawPath(p2, maze);
 
   // Look for alternative paths if available
-  maze = drawPath(p, maze);
-
-  return maze;
+  return drawPath(p, maze);
 }
 
 export function createMaze(): Maze {
@@ -53,7 +51,5 @@ export function createMaze(): Maze {
   // mark first cell
   maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
   // draw line
-  maze = drawPath(p, maze);
-
-  return maze;
+  return drawPath(p, maze);
 }
