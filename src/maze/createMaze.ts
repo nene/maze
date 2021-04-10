@@ -14,8 +14,8 @@ type Dir = keyof MazeCell;
 
 type Coord = { x: number, y: number };
 
-const WIDTH = 10
-const HEIGHT = 10
+const WIDTH = 40;
+const HEIGHT = 40;
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(Math.random() * arr.length);
@@ -81,7 +81,7 @@ const nextCell = (p: Coord, maze: MaybeMaze): {p2: Coord, dir: Dir} | undefined 
 export function createMaze(): FullMaze {
   const maze: MaybeMaze = emptyMaze(WIDTH, HEIGHT);
 
-  let p: Coord = {x: 5, y: 5};
+  let p: Coord = {x: 20, y: 20};
   let cell = cellAt(p, maze);
   while (p) {
     const {p2, dir} = nextCell(p, maze) || {};
