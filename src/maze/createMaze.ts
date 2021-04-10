@@ -1,28 +1,23 @@
 import seedrandom from "seedrandom";
 import { Coord, Dir, Maze, MazeCell } from "./Maze";
-import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, isCellEmpty, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
+import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, isCellEmpty, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
 
-const rand = seedrandom("gentelmen are so solid people in our world of freaks");
+const rand = seedrandom("gentelmen solid people in our world");
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
   return arr[index];
 }
 
-const nextCell = (p: Coord, maze: Maze): {p2: Coord, dir: Dir} | undefined => {
-  let directions: Dir[] = ['left', 'right', 'top', 'bottom'];
-  while (directions.length > 0) {
-    const dir = randomFrom(directions);
-    const p2 = coordPlusDir(p, mazeSize(maze), dir);
-    if (p2 && isCellEmpty(cellAt(p2, maze))) {
-      return {p2, dir};
-    }
-    directions = directions.filter(d => d !== dir);
+const nextCell = (p: Coord, maze: Maze): {coord: Coord, dir: Dir} | undefined => {
+  let directions = availableDirs(p, maze);
+  if (directions.length === 0) {
+    return undefined;
   }
-  return undefined;
+  return randomFrom(directions);
 }
 
 export function createMaze(): Maze {
@@ -33,7 +28,7 @@ export function createMaze(): Maze {
   let cell: MazeCell | undefined = cellPlusMarker(cellAt(p, maze) || emptyCell(), true);
 
   while (p) {
-    const {p2, dir} = nextCell(p, maze) || {};
+    const {coord: p2, dir} = nextCell(p, maze) || {};
     if (!p2 || !dir) {
       break;
     }

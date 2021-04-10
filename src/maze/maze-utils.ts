@@ -19,6 +19,19 @@ export const oppositeDir = (dir: Dir): Dir => {
   }
 }
 
+const hasCoord = (obj: {coord?: Coord, dir: Dir}): obj is {coord: Coord, dir: Dir} => {
+  return !!obj.coord;
+}
+
+export const availableDirs = (p: Coord, maze: Maze): {coord: Coord, dir: Dir}[] => {
+  let directions: Dir[] = ['left', 'right', 'top', 'bottom'];
+  const cell = cellAt(p, maze);
+  return directions
+    .map(dir => ({dir, coord: coordPlusDir(p, mazeSize(maze), dir)}))
+    .filter(hasCoord)
+    .filter(({coord}) => isCellEmpty(cellAt(coord, maze)));
+}
+
 export const cellAt = (p: Coord, maze: Maze): MazeCell => maze[p.y][p.x];
 
 export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze => {
