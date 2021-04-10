@@ -1,11 +1,13 @@
 import seedrandom from "seedrandom";
 import { Coord, Dir, Maze } from "./Maze";
-import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, emptyMaze, oppositeDir, setCellAt } from "./maze-utils";
+import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, emptyMaze, isDeadEndCell, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
 
-const rand = seedrandom("gentelmen solid people in our world");
+const SPLIT_CHANCE = 0.2;
+
+const rand = seedrandom("gentelmen solid people in our worlds");
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
@@ -30,13 +32,20 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
   const {coord: p2, dir} = nextCell(p, maze) || {};
 
   if (!p2 || !dir) {
-    // mark last cell
-    maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
+    if (isDeadEndCell(cellAt(p, maze))) {
+      maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
+    }
     return maze;
   }
 
   maze = connectCells(p, p2, dir, maze);
   maze = drawPath(p2, maze);
+
+  // Are we at crossroads?
+  if (rand() < SPLIT_CHANCE) {
+    maze = drawPath(p, maze);
+  }
+
   return maze;
 }
 

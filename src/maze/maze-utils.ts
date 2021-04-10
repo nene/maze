@@ -1,4 +1,4 @@
-import { clone, range } from "ramda";
+import { clone, identity, range } from "ramda";
 import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
@@ -67,3 +67,6 @@ export const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: fal
 
 export const isCellEmpty = (cell: MazeCell): boolean =>
   !cell.bottom && !cell.top && !cell.left && !cell.right;
+
+export const isDeadEndCell = (cell: MazeCell): boolean =>
+  [cell.bottom, cell.top, cell.left, cell.right].filter(identity).length === 1;
