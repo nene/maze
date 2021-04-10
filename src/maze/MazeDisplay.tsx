@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Maze, MazeCell } from "./Maze";
+import { Marker, Maze, MazeCell } from "./Maze";
 
 const RowWrap = styled.div`
   display: flex;
@@ -46,14 +46,18 @@ const Right = styled(Line)`
   width: 1px;
 `;
 
-const Marker = styled.span`
+const StartMarker = styled.span`
   position: absolute;
-  background-color: #d3cac7;
+  background-color: #196d0e;
   width: 6px;
   height: 6px;
   top: 5px;
   left: 5px;
   border-radius: 100%;
+`;
+
+const EndMarker = styled(StartMarker)`
+  background-color: #d3cac7;
 `;
 
 const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
@@ -63,7 +67,8 @@ const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
       {!bottom ? <Bottom/> : undefined}
       {!left ? <Left/> : undefined}
       {!right ? <Right/> : undefined}
-      {marker ? <Marker/> : undefined}
+      {marker === Marker.start ? <StartMarker/> : undefined}
+      {marker === Marker.end ? <EndMarker/> : undefined}
     </CellWrap>
   );
 }

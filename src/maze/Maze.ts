@@ -1,9 +1,11 @@
+export enum Marker { start, end }
+
 export type MazeCell = {
   top: boolean;
   right: boolean;
   bottom: boolean;
   left: boolean;
-  marker: boolean;
+  marker?: Marker;
 };
 
 export type Maze = MazeCell[][];

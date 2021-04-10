@@ -1,5 +1,5 @@
 import seedrandom from "seedrandom";
-import { Coord, Dir, Maze } from "./Maze";
+import { Coord, Dir, Marker, Maze } from "./Maze";
 import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, emptyMaze, isDeadEndCell, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
@@ -31,7 +31,7 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
 
   if (!p2 || !dir) {
     if (isDeadEndCell(cellAt(p, maze))) {
-      return setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
+      return setCellAt(p, cellPlusMarker(cellAt(p, maze), Marker.end), maze);
     }
     return maze;
   }
@@ -46,10 +46,12 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
 export function createMaze(): Maze {
   let maze = emptyMaze(WIDTH, HEIGHT);
 
-  let p: Coord = {x: 20, y: 20};
+  let p: Coord = {x: 20, y: 0};
 
-  // mark first cell
-  maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), true), maze);
   // draw line
-  return drawPath(p, maze);
+  maze = drawPath(p, maze);
+  // mark first cell
+  maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), Marker.start), maze);
+
+  return maze;
 }
