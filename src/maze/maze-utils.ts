@@ -1,4 +1,4 @@
-import { clone, identity, range, update } from "ramda";
+import { assoc, clone, identity, range, update } from "ramda";
 import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
@@ -38,15 +38,11 @@ export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze => {
   
 
 export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell => {
-  const c = clone(cell);
-  c[dir] = true;
-  return c;
+  return assoc(dir, true, cell);
 }
 
 export const cellPlusMarker = (cell: MazeCell, marker: boolean): MazeCell => {
-  const c = clone(cell);
-  c.marker = true;
-  return c;
+  return assoc('marker', true, cell);
 }
 
 export const mazeSize = <T>(maze: T[][]): Coord => ({
