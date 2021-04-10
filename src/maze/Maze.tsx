@@ -1,30 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { range } from "ramda";
-
-type MazeCell = {
-  top: boolean;
-  right: boolean;
-  bottom: boolean;
-  left: boolean;
-};
-
-const width = 10
-const height = 10
-
-function randomFrom<T>(arr: T[]): T {
-  const index = Math.floor(Math.random() * arr.length);
-  return arr[index];
-}
-
-const data: MazeCell[][] = range(0, height).map(
-  () => range(0, width).map(() => ({
-    top: randomFrom([true, false]),
-    right: randomFrom([true, false]),
-    bottom: randomFrom([true, false]),
-    left: randomFrom([true, false]),
-  }))
-);
+import { MazeCell } from "./createMaze";
 
 const RowWrap = styled.div`
   display: flex;
@@ -82,7 +58,7 @@ const Cell: React.FC<MazeCell> = ({top, right, bottom, left}) => {
   );
 }
 
-export const Maze: React.FC<{}> = () => {
+export const Maze: React.FC<{data: MazeCell[][]}> = ({data}) => {
   return (
     <div>
       { data.map((row, i) =>
