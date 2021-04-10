@@ -1,4 +1,5 @@
 import { clone, range } from "ramda";
+import seedrandom from "seedrandom";
 
 export type MazeCell = {
   top: boolean;
@@ -17,8 +18,10 @@ type Coord = { x: number, y: number };
 const WIDTH = 40;
 const HEIGHT = 40;
 
+const rand = seedrandom("gentelmen are so solid people in our world of freaks");
+
 function randomFrom<T>(arr: T[]): T {
-  const index = Math.floor(Math.random() * arr.length);
+  const index = Math.floor(rand() * arr.length);
   return arr[index];
 }
 
