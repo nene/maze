@@ -1,5 +1,5 @@
-import { assoc, identity, range, update } from "ramda";
-import { Coord, Dir, Marker, Maze, MazeCell } from "./Maze";
+import { assoc, range, update } from "ramda";
+import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
   switch (dir) {
@@ -36,9 +36,6 @@ export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze =>
 export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell =>
   assoc(dir, true, cell);
 
-export const cellPlusMarker = (cell: MazeCell, marker: Marker): MazeCell =>
-  assoc('marker', marker, cell);
-
 export const mazeSize = <T>(maze: T[][]): Coord => ({
   y: maze.length,
   x: maze[0].length,
@@ -54,9 +51,6 @@ export const emptyCell = (): MazeCell =>
 
 export const isCellEmpty = (cell: MazeCell): boolean =>
   !cell.bottom && !cell.top && !cell.left && !cell.right;
-
-export const isDeadEndCell = (cell: MazeCell): boolean =>
-  [cell.bottom, cell.top, cell.left, cell.right].filter(identity).length === 1;
 
 export const updateMazeAt = (p: Coord, f: (c: MazeCell) => MazeCell, maze: Maze): Maze =>
   setCellAt(p, f(cellAt(p, maze)), maze);
