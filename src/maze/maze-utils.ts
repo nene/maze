@@ -24,9 +24,7 @@ const hasCoord = (obj: {coord?: Coord, dir: Dir}): obj is {coord: Coord, dir: Di
 }
 
 export const availableDirs = (p: Coord, maze: Maze): {coord: Coord, dir: Dir}[] => {
-  let directions: Dir[] = ['left', 'right', 'top', 'bottom'];
-  const cell = cellAt(p, maze);
-  return directions
+  return (['left', 'right', 'top', 'bottom'] as Dir[])
     .map(dir => ({dir, coord: coordPlusDir(p, mazeSize(maze), dir)}))
     .filter(hasCoord)
     .filter(({coord}) => isCellEmpty(cellAt(coord, maze)));
