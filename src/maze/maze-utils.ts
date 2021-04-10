@@ -57,3 +57,6 @@ export const isCellEmpty = (cell: MazeCell): boolean =>
 
 export const isDeadEndCell = (cell: MazeCell): boolean =>
   [cell.bottom, cell.top, cell.left, cell.right].filter(identity).length === 1;
+
+export const updateMazeAt = (p: Coord, f: (c: MazeCell) => MazeCell, maze: Maze): Maze =>
+  setCellAt(p, f(cellAt(p, maze)), maze);

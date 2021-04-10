@@ -6,11 +6,12 @@ const RowWrap = styled.div`
   display: flex;
 `;
 
-const CellWrap = styled.span`
+const CellWrap = styled.span<{fill: boolean}>`
   display: block;
   position: relative;
   width: 16px;
   height: 16px;
+  background: ${({fill}) => fill ? '#6ba380' : 'none'};
 `;
 
 const Line = styled.span`
@@ -57,12 +58,12 @@ const StartMarker = styled.span`
 `;
 
 const EndMarker = styled(StartMarker)`
-  background-color: #d3cac7;
+  background-color: #dd4310;
 `;
 
 const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
   return (
-    <CellWrap>
+    <CellWrap fill={!!marker}>
       {!top ? <Top/> : undefined}
       {!bottom ? <Bottom/> : undefined}
       {!left ? <Left/> : undefined}

@@ -1,4 +1,4 @@
-export enum Marker { start, end }
+export enum Marker { start = 1, end = 2, path = 3 }
 
 export type MazeCell = {
   top: boolean;

@@ -1,11 +1,14 @@
 import seedrandom from "seedrandom";
-import { Coord, Dir, Marker, Maze } from "./Maze";
-import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, emptyMaze, isDeadEndCell, oppositeDir, setCellAt } from "./maze-utils";
+import { markPath } from "./markPath";
+import { Coord, Dir, Maze } from "./Maze";
+import { availableDirs, cellAt, cellPlusDir, emptyMaze, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
+const START: Coord = {x: 20, y: 0};
+const END: Coord = {x: 20, y: 39};
 
-const rand = seedrandom("gentelmen");
+const rand = seedrandom("abcde");
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
@@ -30,9 +33,6 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
   const {coord: p2, dir} = nextCell(p, maze) || {};
 
   if (!p2 || !dir) {
-    if (isDeadEndCell(cellAt(p, maze))) {
-      return setCellAt(p, cellPlusMarker(cellAt(p, maze), Marker.end), maze);
-    }
     return maze;
   }
 
@@ -46,12 +46,11 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
 export function createMaze(): Maze {
   let maze = emptyMaze(WIDTH, HEIGHT);
 
-  let p: Coord = {x: 20, y: 0};
+  // draw lines
+  maze = drawPath({x: 20, y: 20}, maze);
 
-  // draw line
-  maze = drawPath(p, maze);
   // mark first cell
-  maze = setCellAt(p, cellPlusMarker(cellAt(p, maze), Marker.start), maze);
+  maze = markPath(START, END, maze);
 
   return maze;
 }
