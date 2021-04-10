@@ -1,4 +1,4 @@
-import { clone, identity, range } from "ramda";
+import { clone, identity, range, update } from "ramda";
 import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
@@ -33,8 +33,7 @@ export const availableDirs = (p: Coord, maze: Maze): {coord: Coord, dir: Dir}[] 
 export const cellAt = (p: Coord, maze: Maze): MazeCell => maze[p.y][p.x];
 
 export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze => {
-  maze[p.y][p.x] = cell;
-  return maze;
+  return update(p.y, update(p.x, cell, maze[p.y]), maze);
 };
   
 
