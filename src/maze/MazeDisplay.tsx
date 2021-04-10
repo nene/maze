@@ -48,7 +48,7 @@ const Right = styled(Line)`
 
 const Marker = styled.span`
   position: absolute;
-  background-color: #cf4d25;
+  background-color: #d3cac7;
   width: 6px;
   height: 6px;
   top: 5px;
