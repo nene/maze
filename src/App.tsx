@@ -1,11 +1,11 @@
 import { createMaze } from './maze/createMaze';
-import { Maze } from './maze/Maze';
+import { MazeDisplay } from './maze/MazeDisplay';
 
 export function App() {
   return (
     <>
       <h1>Little mazer</h1>
-      <Maze data={createMaze()} />
+      <MazeDisplay data={createMaze()} />
     </>
   );
 }

@@ -69,7 +69,7 @@ const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
   );
 }
 
-export const Maze: React.FC<{data: MazeCell[][]}> = ({data}) => {
+export const MazeDisplay: React.FC<{data: MazeCell[][]}> = ({data}) => {
   return (
     <div>
       { data.map((row, i) =>
