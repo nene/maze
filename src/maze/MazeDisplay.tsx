@@ -11,7 +11,6 @@ const CellWrap = styled.span`
   position: relative;
   width: 16px;
   height: 16px;
-  border: 1px solid #d0edf7;
 `;
 
 const Line = styled.span`
@@ -21,49 +20,49 @@ const Line = styled.span`
 
 const Top = styled(Line)`
   top: 0;
-  left: 7px;
-  width: 2px;
-  height: 8px;
+  left: 0;
+  right: 0;
+  height: 1px;
 `;
 
 const Bottom = styled(Line)`
   bottom: 0;
-  left: 7px;
-  width: 2px;
-  height: 8px;
+  left: 0;
+  right: 0;
+  height: 1px;
 `;
 
 const Left = styled(Line)`
-  top: 7px;
   left: 0;
-  width: 8px;
-  height: 2px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
 `;
 
 const Right = styled(Line)`
-  top: 7px;
   right: 0;
-  width: 8px;
-  height: 2px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
 `;
 
 const Marker = styled.span`
   position: absolute;
   background-color: #cf4d25;
-  width: 10px;
-  height: 10px;
-  top: 3px;
-  left: 3px;
+  width: 6px;
+  height: 6px;
+  top: 5px;
+  left: 5px;
   border-radius: 100%;
 `;
 
 const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
   return (
     <CellWrap>
-      {top ? <Top/> : undefined}
-      {bottom ? <Bottom/> : undefined}
-      {left ? <Left/> : undefined}
-      {right ? <Right/> : undefined}
+      {!top ? <Top/> : undefined}
+      {!bottom ? <Bottom/> : undefined}
+      {!left ? <Left/> : undefined}
+      {!right ? <Right/> : undefined}
       {marker ? <Marker/> : undefined}
     </CellWrap>
   );

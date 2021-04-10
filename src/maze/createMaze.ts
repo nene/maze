@@ -5,9 +5,7 @@ import { availableDirs, cellAt, cellPlusDir, cellPlusMarker, emptyMaze, isDeadEn
 const WIDTH = 40;
 const HEIGHT = 40;
 
-const SPLIT_CHANCE = 0.2;
-
-const rand = seedrandom("gentelmen solid people in our worlds");
+const rand = seedrandom("gentelmen");
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
@@ -41,10 +39,8 @@ const drawPath = (p: Coord, maze: Maze): Maze => {
   maze = connectCells(p, p2, dir, maze);
   maze = drawPath(p2, maze);
 
-  // Are we at crossroads?
-  if (rand() < SPLIT_CHANCE) {
-    maze = drawPath(p, maze);
-  }
+  // Look for alternative paths if available
+  maze = drawPath(p, maze);
 
   return maze;
 }
