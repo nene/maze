@@ -19,44 +19,38 @@ export const oppositeDir = (dir: Dir): Dir => {
   }
 }
 
-const hasCoord = (obj: {coord?: Coord, dir: Dir}): obj is {coord: Coord, dir: Dir} => {
-  return !!obj.coord;
-}
+const hasCoord = (obj: {coord?: Coord, dir: Dir}): obj is {coord: Coord, dir: Dir} =>
+  !!obj.coord;
 
-export const availableDirs = (p: Coord, maze: Maze): {coord: Coord, dir: Dir}[] => {
-  return (['left', 'right', 'top', 'bottom'] as Dir[])
+export const availableDirs = (p: Coord, maze: Maze): {coord: Coord, dir: Dir}[] =>
+  (['left', 'right', 'top', 'bottom'] as Dir[])
     .map(dir => ({dir, coord: coordPlusDir(p, mazeSize(maze), dir)}))
     .filter(hasCoord)
     .filter(({coord}) => isCellEmpty(cellAt(coord, maze)));
-}
 
 export const cellAt = (p: Coord, maze: Maze): MazeCell => maze[p.y][p.x];
 
-export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze => {
-  return update(p.y, update(p.x, cell, maze[p.y]), maze);
-};
-  
+export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze =>
+  update(p.y, update(p.x, cell, maze[p.y]), maze);
 
-export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell => {
-  return assoc(dir, true, cell);
-}
+export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell =>
+  assoc(dir, true, cell);
 
-export const cellPlusMarker = (cell: MazeCell, marker: boolean): MazeCell => {
-  return assoc('marker', true, cell);
-}
+export const cellPlusMarker = (cell: MazeCell, marker: boolean): MazeCell =>
+  assoc('marker', true, cell);
 
 export const mazeSize = <T>(maze: T[][]): Coord => ({
   y: maze.length,
   x: maze[0].length,
 });
 
-export const emptyMaze = (width: number, height: number): Maze => {
-  return range(0, height).map(
+export const emptyMaze = (width: number, height: number): Maze =>
+  range(0, height).map(
     () => range(0, width).map(() => emptyCell())
   );
-}
 
-export const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: false, right: false, marker: false });
+export const emptyCell = (): MazeCell =>
+  ({ top: false, bottom: false, left: false, right: false, marker: false });
 
 export const isCellEmpty = (cell: MazeCell): boolean =>
   !cell.bottom && !cell.top && !cell.left && !cell.right;
