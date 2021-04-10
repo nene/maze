@@ -4,12 +4,12 @@ import { markPath } from "./markPath";
 import { Coord, Dir, Maze } from "./Maze";
 import { availableDirs, emptyMaze, oppositeDir, updateMazeAt } from "./maze-utils";
 
-const WIDTH = 40;
-const HEIGHT = 40;
-const START: Coord = {x: 20, y: 0};
-const END: Coord = {x: 20, y: 39};
+const WIDTH = 50;
+const HEIGHT = 50;
+const START: Coord = {x: 25, y: 0};
+const END: Coord = {x: 25, y: 49};
 
-const rand = seedrandom("abcde");
+const rand = seedrandom("cyber alco maniac");
 
 function randomFrom<T>(arr: T[]): T {
   const index = Math.floor(rand() * arr.length);
