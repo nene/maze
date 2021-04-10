@@ -1,7 +1,8 @@
+import { assoc } from "ramda";
 import seedrandom from "seedrandom";
 import { markPath } from "./markPath";
 import { Coord, Dir, Maze } from "./Maze";
-import { availableDirs, cellAt, cellPlusDir, emptyMaze, oppositeDir, setCellAt } from "./maze-utils";
+import { availableDirs, emptyMaze, oppositeDir, updateMazeAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
@@ -24,8 +25,8 @@ const nextCell = (p: Coord, maze: Maze): {coord: Coord, dir: Dir} | undefined =>
 }
 
 const connectCells = (p1: Coord, p2: Coord, dir: Dir, maze: Maze): Maze => {
-  maze = setCellAt(p1, cellPlusDir(cellAt(p1, maze), dir), maze);
-  maze = setCellAt(p2, cellPlusDir(cellAt(p2, maze), oppositeDir(dir)), maze);
+  maze = updateMazeAt(p1, assoc(dir, true), maze);
+  maze = updateMazeAt(p2, assoc(oppositeDir(dir), true), maze);
   return maze;
 }
 

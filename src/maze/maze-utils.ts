@@ -1,4 +1,4 @@
-import { assoc, range, update } from "ramda";
+import { range, update } from "ramda";
 import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
@@ -32,9 +32,6 @@ export const cellAt = (p: Coord, maze: Maze): MazeCell => maze[p.y][p.x];
 
 export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze =>
   update(p.y, update(p.x, cell, maze[p.y]), maze);
-
-export const cellPlusDir = (cell: MazeCell, dir: Dir): MazeCell =>
-  assoc(dir, true, cell);
 
 export const mazeSize = <T>(maze: T[][]): Coord => ({
   y: maze.length,
