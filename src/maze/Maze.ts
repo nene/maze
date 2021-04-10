@@ -7,7 +7,6 @@ export type MazeCell = {
 };
 
 export type FullMaze = MazeCell[][];
-export type MaybeMaze = (MazeCell | undefined)[][];
 
 export type Dir = 'top' | 'right' | 'bottom' | 'left';
 

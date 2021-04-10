@@ -1,5 +1,5 @@
 import { clone, range } from "ramda";
-import { Coord, Dir, FullMaze, MaybeMaze, MazeCell } from "./Maze";
+import { Coord, Dir, FullMaze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
   switch (dir) {
@@ -19,9 +19,9 @@ export const oppositeDir = (dir: Dir): Dir => {
   }
 }
 
-export const cellAt = (p: Coord, maze: MaybeMaze): MazeCell | undefined => maze[p.y][p.x];
+export const cellAt = (p: Coord, maze: FullMaze): MazeCell => maze[p.y][p.x];
 
-export const setCellAt = (p: Coord, cell: MazeCell, maze: MaybeMaze): MaybeMaze => {
+export const setCellAt = (p: Coord, cell: MazeCell, maze: FullMaze): FullMaze => {
   maze[p.y][p.x] = cell;
   return maze;
 };
@@ -44,14 +44,13 @@ export const mazeSize = <T>(maze: T[][]): Coord => ({
   x: maze[0].length,
 });
 
-export const emptyMaze = (width: number, height: number): undefined[][] => {
+export const emptyMaze = (width: number, height: number): FullMaze => {
   return range(0, height).map(
-    () => range(0, width).map(() => undefined)
+    () => range(0, width).map(() => emptyCell())
   );
 }
 
 export const emptyCell = (): MazeCell => ({ top: false, bottom: false, left: false, right: false, marker: false });
 
-export const fillEmptySlots = (maze: MaybeMaze): FullMaze => {
-  return maze.map(row => row.map(c => c || emptyCell()));
-}
+export const isCellEmpty = (cell: MazeCell): boolean =>
+  !cell.bottom && !cell.top && !cell.left && !cell.right;

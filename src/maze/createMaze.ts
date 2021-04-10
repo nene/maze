@@ -1,6 +1,6 @@
 import seedrandom from "seedrandom";
-import { Coord, Dir, FullMaze, MaybeMaze, MazeCell } from "./Maze";
-import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, fillEmptySlots, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
+import { Coord, Dir, FullMaze, MazeCell } from "./Maze";
+import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, isCellEmpty, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
 const HEIGHT = 40;
@@ -12,12 +12,12 @@ function randomFrom<T>(arr: T[]): T {
   return arr[index];
 }
 
-const nextCell = (p: Coord, maze: MaybeMaze): {p2: Coord, dir: Dir} | undefined => {
+const nextCell = (p: Coord, maze: FullMaze): {p2: Coord, dir: Dir} | undefined => {
   let directions: Dir[] = ['left', 'right', 'top', 'bottom'];
   while (directions.length > 0) {
     const dir = randomFrom(directions);
     const p2 = coordPlusDir(p, mazeSize(maze), dir);
-    if (p2 && !cellAt(p2, maze)) {
+    if (p2 && isCellEmpty(cellAt(p2, maze))) {
       return {p2, dir};
     }
     directions = directions.filter(d => d !== dir);
@@ -26,7 +26,7 @@ const nextCell = (p: Coord, maze: MaybeMaze): {p2: Coord, dir: Dir} | undefined 
 }
 
 export function createMaze(): FullMaze {
-  let maze: MaybeMaze = emptyMaze(WIDTH, HEIGHT);
+  let maze = emptyMaze(WIDTH, HEIGHT);
 
   let p: Coord = {x: 20, y: 20};
   // mark first cell
@@ -47,5 +47,5 @@ export function createMaze(): FullMaze {
   // mark last cell
   maze = setCellAt(p, cellPlusMarker(cell || emptyCell(), true), maze);
 
-  return fillEmptySlots(maze);
+  return maze;
 }
