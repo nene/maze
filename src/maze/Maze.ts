@@ -6,7 +6,7 @@ export type MazeCell = {
   marker: boolean;
 };
 
-export type FullMaze = MazeCell[][];
+export type Maze = MazeCell[][];
 
 export type Dir = 'top' | 'right' | 'bottom' | 'left';
 

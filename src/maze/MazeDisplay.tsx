@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MazeCell } from "./Maze";
+import { Maze, MazeCell } from "./Maze";
 
 const RowWrap = styled.div`
   display: flex;
@@ -69,7 +69,7 @@ const Cell: React.FC<MazeCell> = ({top, right, bottom, left, marker}) => {
   );
 }
 
-export const MazeDisplay: React.FC<{data: MazeCell[][]}> = ({data}) => {
+export const MazeDisplay: React.FC<{data: Maze}> = ({data}) => {
   return (
     <div>
       { data.map((row, i) =>

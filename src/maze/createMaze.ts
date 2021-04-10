@@ -1,5 +1,5 @@
 import seedrandom from "seedrandom";
-import { Coord, Dir, FullMaze, MazeCell } from "./Maze";
+import { Coord, Dir, Maze, MazeCell } from "./Maze";
 import { cellAt, cellPlusDir, cellPlusMarker, coordPlusDir, emptyCell, emptyMaze, isCellEmpty, mazeSize, oppositeDir, setCellAt } from "./maze-utils";
 
 const WIDTH = 40;
@@ -12,7 +12,7 @@ function randomFrom<T>(arr: T[]): T {
   return arr[index];
 }
 
-const nextCell = (p: Coord, maze: FullMaze): {p2: Coord, dir: Dir} | undefined => {
+const nextCell = (p: Coord, maze: Maze): {p2: Coord, dir: Dir} | undefined => {
   let directions: Dir[] = ['left', 'right', 'top', 'bottom'];
   while (directions.length > 0) {
     const dir = randomFrom(directions);
@@ -25,7 +25,7 @@ const nextCell = (p: Coord, maze: FullMaze): {p2: Coord, dir: Dir} | undefined =
   return undefined;
 }
 
-export function createMaze(): FullMaze {
+export function createMaze(): Maze {
   let maze = emptyMaze(WIDTH, HEIGHT);
 
   let p: Coord = {x: 20, y: 20};

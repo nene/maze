@@ -1,5 +1,5 @@
 import { clone, range } from "ramda";
-import { Coord, Dir, FullMaze, MazeCell } from "./Maze";
+import { Coord, Dir, Maze, MazeCell } from "./Maze";
 
 export const coordPlusDir = ({x, y}: Coord, size: Coord, dir: Dir): Coord | undefined => {
   switch (dir) {
@@ -19,9 +19,9 @@ export const oppositeDir = (dir: Dir): Dir => {
   }
 }
 
-export const cellAt = (p: Coord, maze: FullMaze): MazeCell => maze[p.y][p.x];
+export const cellAt = (p: Coord, maze: Maze): MazeCell => maze[p.y][p.x];
 
-export const setCellAt = (p: Coord, cell: MazeCell, maze: FullMaze): FullMaze => {
+export const setCellAt = (p: Coord, cell: MazeCell, maze: Maze): Maze => {
   maze[p.y][p.x] = cell;
   return maze;
 };
@@ -44,7 +44,7 @@ export const mazeSize = <T>(maze: T[][]): Coord => ({
   x: maze[0].length,
 });
 
-export const emptyMaze = (width: number, height: number): FullMaze => {
+export const emptyMaze = (width: number, height: number): Maze => {
   return range(0, height).map(
     () => range(0, width).map(() => emptyCell())
   );
