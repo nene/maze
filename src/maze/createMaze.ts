@@ -1,13 +1,13 @@
 import { assoc } from "ramda";
 import seedrandom from "seedrandom";
 import { markPath } from "./markPath";
-import { Coord, Dir, Maze } from "./Maze";
+import { Coord, Dir, Marker, Maze } from "./Maze";
 import { availableDirs, emptyMaze, oppositeDir, updateMazeAt } from "./maze-utils";
 
 const WIDTH = 50;
 const HEIGHT = 50;
-const START: Coord = {x: 25, y: 0};
-const END: Coord = {x: 25, y: 49};
+const START: Coord = {x: Math.floor(WIDTH / 2), y: 0};
+const END: Coord = {x: Math.floor(WIDTH / 2), y: HEIGHT-1};
 
 const rand = seedrandom("cyber alco maniac");
 
@@ -48,10 +48,12 @@ export function createMaze(): Maze {
   let maze = emptyMaze(WIDTH, HEIGHT);
 
   // draw lines
-  maze = drawPath({x: 20, y: 20}, maze);
-
-  // mark first cell
+  maze = drawPath({x: Math.floor(WIDTH / 2), y: Math.floor(HEIGHT / 2)}, maze);
+  // highlight path
   maze = markPath(START, END, maze);
+  // Mark START/END
+  maze = updateMazeAt(START, assoc('marker', Marker.start), maze);
+  maze = updateMazeAt(END, assoc('marker', Marker.end), maze);
 
   return maze;
 }
